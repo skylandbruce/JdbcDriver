@@ -8,7 +8,8 @@ public class OdbcGlobal extends JdbcGlobal{
   }
 
   protected void set_driver(){
-    jdbcDriver="jdbc:odbc:MyOdbc";
+    jdbcDriver="sun.jdbc:odbc:jdbcOdbcDriver";
+    // jdbcDriver="com.mysql.cj.jdbc.Driver";
   }
   protected void set_url(){
     super.dbUrl=dbUrl.toString();

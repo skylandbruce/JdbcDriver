@@ -17,8 +17,8 @@ public abstract class JdbcGlobal {
         this.schema=schema;
         gen_url();
     }
-    abstract protected void set_url();
     abstract protected void set_driver();
+    abstract protected void set_url();
     
     public void set_ip(String ip){
         this.ip=ip;

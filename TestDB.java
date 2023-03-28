@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import db.DBConnectionManager;
+import templete.MssqlGlobal;
 import templete.MysqlGlobal;
 import templete.OdbcGlobal;
 import templete.OracleGlobal;
@@ -13,9 +14,11 @@ public class TestDB{
 
         // <Bruce: 다양한 DB driver templete을 만들어 놓으면, 간단히 교체 가능하다.
         MysqlGlobal jdbc_mysql=new MysqlGlobal("localhost","3306","test_query");        
-        OdbcGlobal jdbc_odbc=new OdbcGlobal("", "", "test");
-        OracleGlobal jdbc_oracle=new OracleGlobal("localhost","1521","test");
+        OracleGlobal jdbc_oracle=new OracleGlobal("localhost","1521","test_query");
+        MssqlGlobal jdbc_mssql=new MssqlGlobal("localhost","1433","test_query");
+        OdbcGlobal jdbc_odbc=new OdbcGlobal("", "", "test_query");
         // >
+
 
         System.out.println("----change ip, port, schema, set login----");
         // <Bruce: set_ip(), set_port(), set_schema() method로 db의 url변경 가능하다>
@@ -28,6 +31,7 @@ public class TestDB{
         System.out.println(jdbc_mysql.get_url());
         
         //////////////////////TEST CODE//////////////////////
+        // Mysql Schema1
         Connection conn;
         Statement stmt;
         ResultSet result;
@@ -49,6 +53,7 @@ public class TestDB{
         connManager.returnConnection(conn);
         
         //////////동시에 다양한 db의 connection을 사용할 수 있다///////////
+        // Other Mysql Schema2
         Connection conn2;        
         jdbc_mysql.set_schema("test_create");
         System.out.println(jdbc_mysql.get_url());
@@ -60,10 +65,15 @@ public class TestDB{
         while (result.next()) {
           String title = result.getString(1);
           int price = result.getInt(2);
-          System.out.println(
-            "타이틀: "+title+", 가격: "+price);
+          System.out.println("타이틀: "+title+", 가격: "+price);
         }
         stmt.close();
         connManager.returnConnection(conn2);
+
+
+        // Odbc - Fail to Loading jdbcOdbcDriver 
+        // MySql은 java driver을 지원하지 않는 듯
+       
+
     }
 }
